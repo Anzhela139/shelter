@@ -94,7 +94,7 @@ const oneArr = (arr) => arr.slice(0,1);
 const randomEl = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
 const fetchingPets = async () => {
-    return fetch(`pets.json`).then(response => response.json())
+    return fetch(`assets/scripts/pets.json`).then(response => response.json())
                              .catch(response => console.error(response))
 }
 

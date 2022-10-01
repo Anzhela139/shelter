@@ -91,7 +91,7 @@ const makeBtnActive = (first, second) => {
 }
 
 const fetchingPets = async () => {
-    return fetch(`pets.json`).then(response => response.json())
+    return fetch(`assets/scripts/pets.json`).then(response => response.json())
                              .catch(response => console.error(response))
 }
 
