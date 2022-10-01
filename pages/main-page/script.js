@@ -112,7 +112,7 @@ class Card  {
     }
 
     madeCard = async (index) =>{
-        let cardD = `<div class="card">
+        let cardD = `<div class="card fadeIn">
         <div class="card_image">
             <img src="${this.img}" alt="" class="card-img">
         </div>

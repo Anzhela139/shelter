@@ -319,7 +319,7 @@ img:not([alt]) {
 .card {
     width: min(270px, 35%);
     min-width: 270px;
-    height: max(435px, calc(100% + 20px));
+    height: 435px;
     min-height: 435px;
     display: flex;
     flex-direction: column;
@@ -327,12 +327,16 @@ img:not([alt]) {
     justify-content: space-around;
     background: #FAFAFA;
     border-radius: 9px;
-    transition: .15s ease-in-out;
+    transition: .2s ease-in-out;
 }
 
 .card:hover {
     background: #FFFFFF;
     box-shadow: 0px 2px 35px 14px rgba(13, 13, 13, 0.04);
+}
+
+.card_image {
+    height: 270px;
 }
 
 .sliders-controls {
@@ -815,9 +819,19 @@ footer .location a:hover {
 
 }
 
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
 
-.card-fadeInOut {
-    
+.fadeIn {
+    animation-name: fadeIn;
+    animation-duration: .5s;
+    animation-timing-function: ease-in-out;
 }
 
 .fade-on {
