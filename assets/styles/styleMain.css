@@ -467,6 +467,7 @@ img:not([alt]) {
     justify-content: center;
     row-gap: 32px;
     column-gap: 24px;
+    margin-top: 24px;
 }
 
 .help_column {
@@ -482,7 +483,7 @@ img:not([alt]) {
 }
 
 .help_column img {
-    width: 80%;
+    width: 50%;
 }
 
 .in-addition {
