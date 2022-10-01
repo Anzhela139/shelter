@@ -253,7 +253,7 @@ nav ul li:last-of-type {
 
 .card {
     width: 270px;
-    height: max(435px, calc(100% + 20px));
+    height: 435px;
     justify-self: center;
     display: flex;
     flex-direction: column;
@@ -261,8 +261,7 @@ nav ul li:last-of-type {
     justify-content: space-around;
     background: #FAFAFA;
     border-radius: 9px;
-    opacity: 0.15;
-    transition: .15s ease-in-out, opacity .4s ease-in-out;
+    transition: all .15s ease-in-out;
 }
 
 .card:hover {
@@ -270,13 +269,10 @@ nav ul li:last-of-type {
     box-shadow: 0px 2px 35px 14px rgba(13, 13, 13, 0.04);
 }
 
-.card-transparency {
-    opacity: 1;
-}
-
 .card_image {
     max-width: 90%;
     border-radius: 5px;
+    height: 270px;
 }
 
 .pagination-controls {
@@ -682,6 +678,21 @@ footer .location a:hover {
         display: flex;
         flex-direction: column;
     }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.fadeIn {
+    animation-name: fadeIn;
+    animation-duration: .5s;
+    animation-timing-function: ease-in-out;
 }
 
 .fade-on {
