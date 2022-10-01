@@ -23,6 +23,7 @@
                     <li><a href="#">Help the shelter</a></li>
                     <li><a href="#">Contacts</a></li>
                 </ul>
+                <button class="menu-burger" id="menu-burger"><span></span><span></span><span></span></button>
             </nav>
         </header>
         <div class="not-only_text-wrapper">
@@ -67,26 +68,46 @@
                 <button class="slider-control control-next"><img src="../../assets/icons/arrow-next.svg" alt=""></button>
             </div>
             <div class="cards_wrapper">
-                <div class="card">
-                    <div class="card_image">
-                        <img src="../../assets/images/card-img1.png" alt="">
+                <div class="cards_carousel">
+                    <div class="card">
+                        <div class="card_image">
+                            <img src="" alt="" class="card-img">
+                        </div>
+                        <h4 class="card-name"></h4>
+                        <button class="button-secondary card-btn">Learn more</button>
                     </div>
-                    <h4>Katrine</h4>
-                    <button class="button-secondary">Learn more</button>
+                    <div class="card">
+                        <div class="card_image">
+                            <img src="" alt="" class="card-img">
+                        </div>
+                        <h4 class="card-name"></h4>
+                        <button class="button-secondary card-btn">Learn more</button>
+                    </div>
+                    <div class="card">
+                        <div class="card_image">
+                            <img src="" alt="" class="card-img">
+                        </div>
+                        <h4 class="card-name"></h4>
+                        <button class="button-secondary card-btn">Learn more</button>
+                    </div>
                 </div>
-                <div class="card">
-                    <div class="card_image">
-                        <img src="../../assets/images/card-img2.png" alt="">
-                    </div>
-                    <h4>Jennifer</h4>
-                    <button class="button-secondary">Learn more</button>
-                </div>
-                <div class="card">
-                    <div class="card_image">
-                        <img src="../../assets/images/card-img3.png" alt="">
-                    </div>
-                    <h4>Woody</h4>
-                    <button class="button-secondary">Learn more</button>
+            </div>
+        </div>
+        <div class="card-popup hidden">
+            <button class="popup-close"><img src="../../assets/icons/popup-close.svg" alt=""></button>
+            <div class="card-popup_wrapper">
+                <img src="" alt=""class="card-popup_img">
+                <div class="card-popup_text-wrapper">
+                    <h3 class="card-popup_name"></h3>
+                    <p class="card_type-breed"><span class="card-type"></span> - <span class="card-breed"></span></p>
+                    <p class="card-desc">
+                    </p>
+                    <ul>
+                        <li>Age: <span class="card-age"></span></li>
+                        <li>Inoculations: <span class="card-inoculations"></span></li>
+                        <li>Diseases: <span class="card-diseases"></span></li>
+                        <li>Parasites: <span class="card-parasites"></span></li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -170,6 +191,7 @@
         <img src="../../assets/images/footer-puppy.png" alt="">
     </div>
 </footer>
+<div class="fade-off"></div>
 <script src="script.js"></script>
 </body>
 </html>

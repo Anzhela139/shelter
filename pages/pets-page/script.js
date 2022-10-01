@@ -14,18 +14,18 @@ $menuBurgerBtn.addEventListener('click', () => {
     }
 })
 
-const randomizer = (max, min) => Math.ceil(Math.random() * (max - min) + min); // That's functions needed to 
-const randomArr = (arr) => arr.sort( (a,b)=> 0.5-Math.random()); // make convincing array of 48 pets out of 
+const randomizer = (max, min) => Math.ceil(Math.random() * (max - min) + min); 
+const randomArr = (arr) => arr.slice(0).sort( (a,b)=> 0.5-Math.random()); 
 function makeArr48 (arrInc, arrResult, func, limit){
     if (arrResult.length < limit) {
         arrResult.push([func(arrInc)]);
         return makeArr48(arrInc, arrResult, func, limit);
     }
     else {
-        return arrResult;
+        return arrResult.flat();
     }
 
-}; // array of 8 pets.
+}; 
 /*
   let arrTest = [1, 2, 4, 3, 5, 6, 7, 8];
   console.log(randomArr(arrTest))
@@ -50,11 +50,13 @@ let randomArrs = () => {}
 
 const first = (arr) => arr[0];
 
-const prev = (arr, item) => arr[item-1];
+const prev = (arr, item) => arr[arr.indexOf(item)-1];
 
-const curr = (arr, item) => arr.indexOf(item);
+console.log(prev(arrTest4, 8));
 
-const next = (arr, item) => arr[item+1];
+const curr = (arr, item) => arr.indexOf(item) + 1;
+
+const next = (arr, item) => arr[arr.indexOf(item)+1];
 
 const last = (arr) => arr[arr.length-1];
 const pagination = (arr, curr, index) => {
@@ -154,7 +156,6 @@ class Render {
         for(let i=0;i<cardsArr.length;i++) {
             cardsArr[i].madeCard(i);
         }   
-        this.startPagination(petsArr);
         this.getBTNSPopup(cardsArr);
 
         return cardsArr;
@@ -164,8 +165,11 @@ class Render {
         const pets = await this.getPets();
         let petsArr = [pets];
         petsArr = petsArr[0];
-
-        this.loadContent(petsArr);
+        let bigArr = [];
+        bigArr = makeArr48(petsArr, bigArr, randomArr, 6);
+        let currI = bigArr[0];
+        this.startPagination(bigArr, currI);
+        this.loadContent(bigArr[0], [0]);
     }
 
     getBTNSPopup = async (arr) => {
@@ -198,51 +202,62 @@ class Render {
 
     getBTNSPagination = async (arr, currI) => {
         let index = '';
+        const $pageCurrBTN = document.querySelector('.control-curr');
+
         const $pageFirstBTN = document.querySelector('.control-first');
+        if (currI === [0]) {
+            $pageFirstBTN.disabled = true;
+            $pagePrevBTN.disabled = true;
+        }
+        else if (currI === [arr.length-1]) {
+            $pageNextBTN.disabled = true;
+            $pageLastBTN.disabled = true;
+        }
         $pageFirstBTN.addEventListener('click', ()=>{
+            
             index = 'first';
             let pagiArr = pagination(arr, currI, index);
             this.loadContent(pagiArr);
-            console.log(pagination(arr, 1, index))
+            $pageCurrBTN.innerText = curr(arr, currI);
+
+            console.log(pagiArr)
         });
         const $pagePrevBTN = document.querySelector('.control-prev');
         $pagePrevBTN.addEventListener('click', ()=>{
             index = 'prev';
-            pagination(arr, currI, index);
-            console.log(pagination(arr, 1, index))
+            let pagiArr = pagination(arr, currI, index);
+            this.loadContent(pagiArr);
+            console.log(pagiArr)
+            $pageCurrBTN.innerText = curr(arr, currI);
+
 
         });
-        const $pageCurrBTN = document.querySelector('.control-curr');
-        //$pageCurrBTN.innerText = curr();
 
         const $pageNextBTN = document.querySelector('.control-next');
         $pageNextBTN.addEventListener('click', ()=>{
             index = 'next';
-            pagination(arr, currI, index);
-            console.log(pagination(arr, 1, index))
+            let pagiArr = pagination(arr, currI, index);
+            this.loadContent(pagiArr);
+            $pageCurrBTN.innerText = curr(arr, currI);
 
+            console.log(currI)
         });
         const $pageLastBTN = document.querySelector('.control-last');
         $pageLastBTN.addEventListener('click', ()=>{
             index = 'last';
-            pagination(arr, currI, index);
-            console.log(pagination(arr, 1, index))
+            let pagiArr = pagination(arr, currI, index);
+            this.loadContent(pagiArr);
+            $pageCurrBTN.innerText = curr(arr, currI);
+
+            console.log(pagiArr)
         });
         return {$pageFirstBTN, $pagePrevBTN, $pageCurrBTN, $pageNextBTN, $pageLastBTN};
     }
 
-    startPagination = async (arr) => {
-        let bigArr = [];
-
-        bigArr = makeArr48(arr, bigArr, randomArr, 8);
-        let currI = curr(bigArr[0]);
-
-        const $paginBTNs = this.getBTNSPagination(bigArr, currI);
-        
-        console.log($paginBTNs);
-
-        const linkedList = new LinkedList(bigArr);
-        console.log(linkedList);
+    startPagination = async (arr, currI) => {
+        this.getBTNSPagination(arr, currI);
+    
+        //const linkedList = new LinkedList(bigArr);
     }
 
 }

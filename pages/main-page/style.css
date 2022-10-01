@@ -272,14 +272,32 @@ nav ul li:last-of-type {
 .cards_wrapper {
     width: 85%;
     height: max(435px, calc(100% + 20px));
+    min-height: 435px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+    transition: transform .3s ease-in-out;
+}
+
+.cards_carousel {
+    width: 100%;
+    height: 100%;
+    min-height: 435px;
+    margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    overflow-x: hidden;
+}
+
+img:not([alt]) {
+    filter: none;
 }
 
 .cards_slider {
     width: 100%;
-    height: 435px;
+    height:  max(435px, calc(100% + 20px));
     margin: 60px 0;
     position: relative;
     display: flex;
@@ -288,7 +306,9 @@ nav ul li:last-of-type {
 
 .card {
     width: min(270px, 35%);
+    min-width: 270px;
     height: max(435px, calc(100% + 20px));
+    min-height: 435px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -312,7 +332,8 @@ nav ul li:last-of-type {
     justify-content: space-between;
 }
 
-.slider-control {
+.slider-control,
+.popup-close {
     appearance: none;
     outline: none;
     border: none;
@@ -342,14 +363,75 @@ nav ul li:last-of-type {
     border: 2px solid #CDCDCD;
 }
 
-.slider-control:hover {
+.slider-control:hover,
+.popup-close:hover {
     background: #FDDCC4;
     border: 2px solid #FDDCC4;
+}
+
+.card-popup {
+    width: 75%;
+    z-index: 5;
+    height: 80vh;
+    background-color: #FAFAFA;
+    box-shadow: 0px 2px 35px 14px rgba(13, 13, 13, 0.04);
+    border-radius: 9px;
+    position: relative;
+    color: #000000;
+    font-family: 'Georgia', serif;
+}
+
+.card-popup .card-name {
+    color: #000000;
+    text-align: left;
+}
+
+.card-popup_img {
+    align-self: center;
+    justify-self: center;
+}
+
+.card-popup ul {
+    margin: 0;
+    margin-left: 10px;
+    padding: 0;
+}
+
+.card-popup ul li {
+    list-style: none;
+    position: relative;
+    font-weight: bold;
+}
+
+.card-popup ul li span {
+    font-weight: normal;
+}
+
+.card-popup ul li:before {
+    position: absolute;
+    content: '';
+    width: 4px;
+    height: 4px;
+    left: -10px;
+    top: 11px;
+    border-radius: 50%;
+    background-color: #F1CDB3;
+}
+
+.card-popup_wrapper {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
 }
 
 .our-friends h3,
 .help h3 {
     text-align: center;
+}
+
+.popup-close {
+    position: absolute;
+    right: -42px;
+    top: -52px;
 }
 
 .help {
@@ -473,4 +555,106 @@ footer .location a {
 footer .contacts a:hover,
 footer .location a:hover {
     color: #FDDCC4;
+}
+
+
+@media screen and (max-width: 768px) {
+    header {
+        margin-top: 0;
+        min-height: 120px;
+    }
+
+    header nav {
+        width: calc(100% - 60px);
+        position: relative;
+    }
+
+    header nav ul {
+        display: none;
+    }
+
+    nav .menu-burger {
+        padding: 0;
+        appearance: none;
+        outline: none;
+        border: none;
+        background: transparent;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 30px;
+        height: 22px;
+        z-index: 5;
+    }
+
+    nav .menu-burger span {
+        background-color: #000000;
+        width: 30px;
+        height: 2px;
+    }
+
+    nav .menu-burger span:last-of-type {
+        margin-bottom: 0;
+    }
+
+    nav .menu-open {
+        position: absolute;
+        top: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #292929;
+        z-index: 3;
+        max-width: 320px;
+        min-width: 100vw;
+        height: 100vh;
+        animation: slideIn 0.4s ease-in-out;
+    }
+
+    .menu-close {
+        animation: slideIn 0.4s ease-in-out reverse;
+    }
+
+    nav .menu-open a {
+        color: #CDCDCD;
+    }
+
+    @keyframes slideIn {
+        from {
+            transform: translateX(100%);
+        }
+        to {
+            transform: translateX(0%);
+        }
+    }
+
+    .cards_wrapper {
+        display: flex;
+        flex-direction: column;
+        width: calc(100% - 60px);
+    }
+
+    .footer_wrapper {
+        width: calc(100% - 60px);
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+.card-fadeInOut {
+    
+}
+
+.fade-on {
+    top: 0;
+    z-index: 2;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(41, 41, 41, 0.6);
+}
+
+.hidden {
+    display: none;
 }
