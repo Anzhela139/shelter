@@ -22,7 +22,7 @@ h3 {
     font-weight: normal;
     font-size: 35px;
     line-height: 130%;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.06rem;
     color: #545454;
     white-space: pre-line;
 }
@@ -203,7 +203,7 @@ nav ul li:last-of-type {
 
 .not-only {
     background: radial-gradient(100% 215.42% at 0% 0%, #5B483A 0%, #262425 100%), #211F20;
-    height: 100vh;
+    height: 100%;
 }
 
 .not-only_text-wrapper {
@@ -232,8 +232,35 @@ nav ul li:last-of-type {
     align-self: end;
 }
 
+.about {
+    min-height: 588px;
+}
+
+.about_wrapper,
+.in-addition_wrapper {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    align-items: center;
+}
+
+.about_wrapper img {
+    justify-self: center;
+}
+
+.about_text-wrapper {
+    min-height: 380px;
+    max-width: 430px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
 .our-friends {
     background: #F6F6F6;
+    min-height: 877px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .our-friends_wrapper {
@@ -325,6 +352,12 @@ nav ul li:last-of-type {
     text-align: center;
 }
 
+.help {
+    min-height: 611px;
+    display: flex;
+    align-items: center;
+}
+
 .help_wrapper-grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -336,14 +369,25 @@ nav ul li:last-of-type {
 }
 
 .help_column {
+    min-height: 113px;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     text-align: center;
     white-space: nowrap;
 }
 
 .in-addition {
     background-color: #F6F6F6;
+    min-height: 464px;
+}
+
+.in-addition_text-wrapper {
+    max-width: 380px;
+    min-height: 282px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .in-addition a {
@@ -366,9 +410,53 @@ footer {
 
 }
 
+.footer_wrapper {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+footer .contacts,
+footer .location {
+    justify-self: center;
+    align-self: center;
+    max-width: 278px;
+}
+
+footer .contacts h3,
+footer .location h3 {
+    color: #FFFFFF;
+    letter-spacing: 0.03rem;
+}
+
+footer .contacts a {
+    white-space: nowrap;
+}
+
+footer .contacts a,
+footer .location a {
+    position: relative;
+    left: 50px;
+    color: #F1CDB3;
+    transition: 0.15s ease-in-out;
+}
+
+footer .contacts a:hover,
+footer .location a:hover {
+    color: #FDDCC4;
+}
+
 footer .contacts a::before {
+    position: absolute;
     content: '';
-    width: 15px;
-    height: 15px;
+    width: 40px;
+    height: 30px;
+    left: -45px;
+}
+
+footer .contacts a:nth-of-type(1)::before {
     background: url(../../assets/icons/icon-email.svg);
+}
+
+footer .contacts a:nth-of-type(2)::before {
+    background: url(../../assets/icons/icon-phone.svg);
 }
