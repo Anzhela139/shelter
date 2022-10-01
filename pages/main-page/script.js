@@ -1,19 +1,39 @@
 const $menuBurgerBtn = document.querySelector("#menu-burger");
 const $menu = document.querySelector(".header-menu");
+const $logo = document.querySelector('.logo_wrapper');
 
 const $fade = document.querySelector('.fade-off');
 const $cardPopup = document.querySelector('.card-popup');
 const $cardWrapper = document.querySelector('.cards_carousel');
 $menuBurgerBtn.addEventListener('click', () => {
     if (document.querySelector(".menu-open")) {$menu.classList.add('menu-close')};
+    console.log($menu);
     $menu.classList.toggle('menu-open');
+    $menuBurgerBtn.classList.toggle('menu-burger-rotate');
+    $burgerSpans.forEach(item => {
+        item.classList.toggle('menu-burger-rotate-span');
+    });
+
+
     if (!document.querySelector(".fade-on")) {
         $fade.classList.add('fade-on');
     }
     else {
         $fade.classList.remove('fade-on');
     }
+
+    $fade.addEventListener('click', () => {
+        $menu.classList.toggle('menu-open');
+        $menuBurgerBtn.classList.toggle('menu-burger-rotate');
+        $fade.classList.remove('fade-on');
+        $burgerSpans.forEach(item => {
+            item.classList.toggle('menu-burger-rotate-span');
+        });
+    })
 })
+
+let winWidth = document.documentElement.clientWidth;
+console.log(winWidth)
 
 const randomizer = (max, min) => Math.ceil(Math.random() * (max - min) + min); 
 const randomArr = (arr) => arr.slice(0).sort( (a,b)=> 0.5-Math.random()); 
@@ -27,29 +47,19 @@ function makeArr48 (arrInc, arrResult, func, limit){
     }
 
 }; 
-/*
-  let arrTest = [1, 2, 4, 3, 5, 6, 7, 8];
-  console.log(randomArr(arrTest))
-  let arrTest2 = [];
-  console.log(makeArr48(arrTest, arrTest2, randomArr, 8))
-  arrTest4 = arrTest4.reduceRight((p,c) => (c.next = p,c));
 
-console.log(arrTest3);
-console.log(first(arrTest3));
-console.log(prev(arrTest3, 3));
-  let arrTest3 = [1, 2, 4, 3, 5, 6, 7, 8];
-
-
-
-console.log(arrTest3)
-*/
-
-
-let arrTest4 = [1, 2, 4, 3, 5, 6, 7, 8];
-let arrtest6 = [1, 2, 4];
-let arrTest5 = [11, 12, 14, 3, 15, 16, 17, 18];
-
-//let randomArrs = () => {}
+const makeArrConsistent =  (arr, itemA, itemD, index) => {
+    arr.splice(arr.indexOf(itemD), 1);
+    if (index === 'prev') {
+        arr.push(itemA);
+        console.log(itemA)
+        console.log(itemD)
+    }
+    else if (index === 'next') {
+        arr.unshift(itemA);
+    }
+    return arr;
+}
 
 const makeArrSlider = (arrFull, threeArr) => {
     let result = [];
@@ -59,41 +69,12 @@ const makeArrSlider = (arrFull, threeArr) => {
     return result;
 };
 
-
-
-const first = (arr) => arr[0];
-
-const prev = (arr, item) => arr[arr.indexOf(item)-1];
-
-console.log(prev(arrTest4, 8));
-
-const curr = (arr, item) => arr.indexOf(item) + 1;
-
-const next = (arr, item) => arr[arr.indexOf(item)+1];
-
-const last = (arr) => arr[arr.length-1];
-const pagination = (arr, curr, index) => {
-    if (index === 'first') {
-        return first(arr);
-    }
-    else if (index === 'prev') {
-        return prev(arr, curr);
-    }
-    else if (index === 'next') {
-        return next(arr, curr);
-    }
-    else if (index === 'last') {
-        return last(arr);
-    }
-}
-
 const threeArr = (arr) => arr.slice(0,3);
+const twoArr = (arr) => arr.slice(0,2);
+const oneArr = (arr) => arr.slice(0,1);
 
 const randomEl = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
-//madeElem('prev');
-
-//console.log(madeElem('prev'));
 const fetchingPets = async () => {
     return fetch(`pets.json`).then(response => response.json())
                              .catch(response => console.error(response))
@@ -128,25 +109,6 @@ class Card extends CardDOM {
         this.inoculations = inoculations;
         this.diseases = diseases;
         this.parasites = parasites;
-    }
-
-    madeSlide = async (index, item) => {
-        let nameSl = '';
-        let imgSl = '';
-        if (index === 'prev') {
-            nameSl = document.querySelector('.card-name');
-            imgSl = document.querySelector('.card .card-img');
-        }
-        else if (index === 'next') {
-            nameSl = document.querySelector(".cards_carousel > div:nth-child(3) > .card-name")
-            imgSl = document.querySelector('.card:nth-child(3) .card-img');
-        }
-        console.log(imgSl);
-
-
-        nameSl.innerText = item.name || '';
-        imgSl.src = item.img || '';
-
     }
 
     madeCard = async (index) =>{
@@ -187,13 +149,13 @@ class Card extends CardDOM {
         elBtn.classList.add('button-secondary');
         elBtn.appendChild(btnText);
     
-        //elObj.imgDOM = elObj.img;
-        //elObj.nameDOM = elObj.name;
-    
-        console.log(item);
     
         let $firstCard = document.querySelector('.card:first-of-type');
         let $lastCard = document.querySelector('.card:last-of-type');
+
+        let nameSl = '';
+        let imgSl = '';
+        
     
         if (index === 'prev') {
             $firstCard.before(elWrap);
@@ -201,8 +163,9 @@ class Card extends CardDOM {
             elImgWrap.append(elImg);
             elWrap.append(elTitle);
             elWrap.append(elBtn);
-            $lastCard.remove();
-            item.madeCard([0]);
+
+            nameSl = document.querySelector('.card-name');
+            imgSl = document.querySelector('.card .card-img');
         }
         else if (index === 'next') {
             $lastCard.after(elWrap);
@@ -210,10 +173,13 @@ class Card extends CardDOM {
             elImgWrap.append(elImg);
             elWrap.append(elTitle);
             elWrap.append(elBtn);
-            $firstCard.remove();
-            //elObj.madeCard();
-    
+
+            nameSl = document.querySelector(".cards_carousel > div:nth-child(3) > .card-name")
+            imgSl = document.querySelector('.card:nth-child(3) .card-img');    
         }
+
+        nameSl.innerText = item.name || '';
+        imgSl.src = item.img || '';
     }
 
 }
@@ -246,12 +212,34 @@ class Render {
         const pets = await this.getPets();
         let petsArr = [pets];
         let fullArr = petsArr.flat();
-        petsArr = threeArr(fullArr);
-        let arrSlider = makeArrSlider(fullArr, petsArr);
+        if (winWidth > 1280) {
+            petsArr = threeArr(fullArr);
+            let arrSlider = makeArrSlider(fullArr, petsArr);
 
-        this.loadContent(petsArr);
+            this.loadContent(petsArr);
+            this.startSlider(petsArr, arrSlider);
+        }
 
-        this.startSlider(arrSlider);
+        else if (winWidth <= 1280 && winWidth > 768) {
+            document.querySelector('.cards_carousel > div:nth-child(3)').remove();
+
+            petsArr = twoArr(fullArr);
+            let arrSlider = makeArrSlider(fullArr, petsArr);
+
+            this.loadContent(petsArr);
+            this.startSlider(petsArr, arrSlider);
+        }
+        else if (winWidth <= 768) {
+            document.querySelector('.cards_carousel > div:nth-child(3)').remove();
+            document.querySelector('.cards_carousel > div:nth-child(2)').remove();
+
+            petsArr = oneArr(fullArr);
+            let arrSlider = makeArrSlider(fullArr, petsArr);
+
+            this.loadContent(petsArr);
+            this.startSlider(petsArr, arrSlider);
+        }
+
     }
 
     getBTNSPopup = async (arr) => {
@@ -282,37 +270,37 @@ class Render {
         })
     } 
 
-    getBTNSSlider = async (arr) => {
+    startSlider = async (arr3, arr5) => {
         const $prevCtrlSlider = document.querySelector('.control-prev');
 
-        let ranEl = randomEl(arr);
-        ranEl = arr.indexOf(ranEl);
-        console.log(arr[ranEl])
+
         $prevCtrlSlider.addEventListener('click', ()=>{
-            let el = new Card(arr[ranEl]);
+            let ranEl = randomEl(arr5);
+            let ranElIndex = arr5.indexOf(ranEl);
+            let itemV = arr3[arr3.length-1];
+            let el = new Card(arr5[ranElIndex]);
             el.madeElem('prev', el);
-            console.log(el)
-            el.madeSlide('prev', el);
-           // transform: translateX(-20%);
-          // this.loadContent(index);
+            let $lastCard = document.querySelector('.card:last-of-type');
+            $lastCard.remove();
+            makeArrConsistent(arr5, itemV, ranEl, 'prev');
+            makeArrConsistent(arr3, ranEl, itemV, 'prev');
 
 
         })
 
         const $nextCtrlSlider = document.querySelector('.control-next');
         $nextCtrlSlider.addEventListener('click', ()=>{
-            let el = new Card(arr[ranEl]);
+            let ranEl = randomEl(arr5);
+            let ranElIndex = arr5.indexOf(ranEl);
+            let itemV = arr3[0];
+            let el = new Card(arr5[ranElIndex]);
+            let $firstCard = document.querySelector('.card:first-of-type');
+            $firstCard.remove();
             el.madeElem('next', el);
-            console.log(el)
-            el.madeSlide('next', el);
+            makeArrConsistent(arr5, itemV, ranEl, 'next');
+            makeArrConsistent(arr3, ranEl, itemV, 'next');
 
         })
-    }
-
-    startSlider = async (arr) => {
-        this.getBTNSSlider(arr);
-
-        //const linkedList = new LinkedList(bigArr);
     }
 
 }

@@ -9,19 +9,25 @@
     <title>Shelter</title>
 </head>
 <body>
-<header>
+<header id="header">
     <nav>
         <div class="logo_wrapper">
-            <h1>Cozy House</h1>
+            <h1><a href="../main-page/index.html">Cozy House</a></h1>
             <p class="logo_subtitle">Shelter for pets in Boston</p>
         </div>
-        <ul class="header-menu">
-            <li><a href="#">About the shelter</a></li>
-            <li><a href="#" class="link-active">Our pets</a></li>
-            <li><a href="#">Help the shelter</a></li>
-            <li><a href="#">Contacts</a></li>
-        </ul>
-        <button class="menu-burger" id="menu-burger"><span></span><span></span><span></span></button>
+        <div class="header-menu">
+            <div class="logo_wrapper">
+                <h1>Cozy House</h1>
+                <p class="logo_subtitle">Shelter for pets in Boston</p>
+            </div>
+            <ul>
+                <li><a href="../main-page/index.html">About the shelter</a></li>
+                <li><a href="#header" class="link-active">Our pets</a></li>
+                <li><a href=javascript:void(0)>Help the shelter</a></li>
+                <li><a href=javascript:void(0)>Contacts</a></li>
+            </ul>
+        </div>
+        <button class="menu-burger" id="menu-burger"><span class="menu-burger-span"></span><span class="menu-burger-span"></span><span class="menu-burger-span"></span></button>
     </nav>
 </header>
 <section class="our-friends">
@@ -107,8 +113,8 @@
             </div>
         </div>
         <div class="pagination-controls">
-            <button class="pagination-control inactive control-first">&lt;&lt;</button>
-            <button class="pagination-control inactive control-prev">&lt;</button>
+            <button class="pagination-control control-first">&lt;&lt;</button>
+            <button class="pagination-control control-prev">&lt;</button>
             <button class="pagination-control control-curr">1</button>
             <button class="pagination-control control-next">&gt;</button>
             <button class="pagination-control control-last">&gt;&gt;</button>

@@ -1,18 +1,38 @@
 const $menuBurgerBtn = document.querySelector("#menu-burger");
 const $menu = document.querySelector(".header-menu");
+const $burgerSpans = document.querySelectorAll('#menu-burger span');
 
 const $fade = document.querySelector('.fade-off');
 const $cardPopup = document.querySelector('.card-popup');
 $menuBurgerBtn.addEventListener('click', () => {
     if (document.querySelector(".menu-open")) {$menu.classList.add('menu-close')};
+    console.log($menu);
     $menu.classList.toggle('menu-open');
+    $menuBurgerBtn.classList.toggle('menu-burger-rotate');
+    $burgerSpans.forEach(item => {
+        item.classList.toggle('menu-burger-rotate-span');
+    });
+
+
     if (!document.querySelector(".fade-on")) {
         $fade.classList.add('fade-on');
     }
     else {
         $fade.classList.remove('fade-on');
     }
+
+    $fade.addEventListener('click', () => {
+        $menu.classList.toggle('menu-open');
+        $menuBurgerBtn.classList.toggle('menu-burger-rotate');
+        $fade.classList.remove('fade-on');
+        $burgerSpans.forEach(item => {
+            item.classList.toggle('menu-burger-rotate-span');
+        });
+    })
 })
+
+let winWidth = document.documentElement.clientWidth;
+
 
 const randomizer = (max, min) => Math.ceil(Math.random() * (max - min) + min); 
 const randomArr = (arr) => arr.slice(0).sort( (a,b)=> 0.5-Math.random()); 
@@ -24,57 +44,62 @@ function makeArr48 (arrInc, arrResult, func, limit){
     else {
         return arrResult.flat();
     }
-
 }; 
-/*
-  let arrTest = [1, 2, 4, 3, 5, 6, 7, 8];
-  console.log(randomArr(arrTest))
-  let arrTest2 = [];
-  console.log(makeArr48(arrTest, arrTest2, randomArr, 8))
-  arrTest4 = arrTest4.reduceRight((p,c) => (c.next = p,c));
 
-console.log(arrTest3);
-console.log(first(arrTest3));
-console.log(prev(arrTest3, 3));
-  let arrTest3 = [1, 2, 4, 3, 5, 6, 7, 8];
+const makeArr6 = (arr, arrResult, func, limit) => {
+    for (let i=0;i<limit;i++) {
+        arrResult[i] = func(arr).slice(0, 6);
+    }
+    return arrResult;
+}
 
+const makeArr3 = (arr, arrResult, func, limit) => {
+    for (let i=0;i<limit;i++) {
+        arrResult[i] = func(arr).slice(0, 3);
+    }
+    return arrResult;
+}
 
-
-console.log(arrTest3)
-*/
-
-
-let arrTest4 = [1, 2, 4, 3, 5, 6, 7, 8];
-
-let randomArrs = () => {}
-
-const first = (arr) => arr[0];
-
-const prev = (arr, item) => arr[arr.indexOf(item)-1];
-
-console.log(prev(arrTest4, 8));
-
-const curr = (arr, item) => arr.indexOf(item) + 1;
-
-const next = (arr, item) => arr[arr.indexOf(item)+1];
-
-const last = (arr) => arr[arr.length-1];
 const pagination = (arr, curr, index) => {
     if (index === 'first') {
-        return first(arr);
+        return arr[0];
     }
     else if (index === 'prev') {
-        return prev(arr, curr);
+        return arr[arr.indexOf(curr)-1];
     }
     else if (index === 'next') {
-        return next(arr, curr);
+        return arr[arr.indexOf(curr)+1];
     }
     else if (index === 'last') {
-        return last(arr);
+        return arr[arr.length-1];
     }
 }
-console.log(pagination(arrTest4, 3, 'first'));
 
+const makeBtnInactive = (first, second) => {
+    first.disabled = true;
+    first.classList.add('inactive');
+    second.disabled = true;
+    second.classList.add('inactive');
+}
+
+const makeBtnActive = (first, second) => {
+    first.disabled = false;
+    first.classList.remove('inactive');
+    second.disabled = false;
+    second.classList.remove('inactive');
+}
+
+const makeCardsTransparent = (arr) => {
+    arr.forEach(item => {
+        item.classList.remove('card-transparency');
+    })
+}
+
+const makeCardsVisible = (arr) => {
+    arr.forEach(item => {
+        item.classList.add('card-transparency');
+    })
+}
 
 const fetchingPets = async () => {
     return fetch(`pets.json`).then(response => response.json())
@@ -131,10 +156,6 @@ class Card extends CardDOM {
         
         $fade.classList.add('fade-on');
     }
-
-    madePagination= async () => {
-        
-    }
 }
 
 class Render {
@@ -165,11 +186,34 @@ class Render {
         const pets = await this.getPets();
         let petsArr = [pets];
         petsArr = petsArr[0];
+        
         let bigArr = [];
-        bigArr = makeArr48(petsArr, bigArr, randomArr, 6);
-        let currI = bigArr[0];
-        this.startPagination(bigArr, currI);
-        this.loadContent(bigArr[0], [0]);
+
+        if (winWidth > 1280) {
+            bigArr = makeArr48(petsArr, bigArr, randomArr, 6);
+            this.startPagination(bigArr, 0);
+            this.loadContent(bigArr[0]);
+        }
+        else if (winWidth <= 1280 && winWidth > 768) {
+            bigArr = makeArr6(petsArr, bigArr, randomArr, 8);
+            this.startPagination(bigArr, 0);
+            this.loadContent(bigArr[0]);
+            document.querySelector('.cards_wrapper > .card:nth-child(8)').remove();
+            document.querySelector('.cards_wrapper > .card:nth-child(7)').remove();
+
+        }
+        else if (winWidth <= 768) {
+            bigArr = makeArr3(petsArr, bigArr, randomArr, 16);
+            this.startPagination(bigArr, 0);
+            this.loadContent(bigArr[0]);
+            document.querySelector('.cards_wrapper > .card:nth-child(8)').remove();
+            document.querySelector('.cards_wrapper > .card:nth-child(7)').remove();
+            document.querySelector('.cards_wrapper > .card:nth-child(6)').remove();
+            document.querySelector('.cards_wrapper > .card:nth-child(5)').remove();
+            document.querySelector('.cards_wrapper > .card:nth-child(4)').remove();
+
+        }
+
     }
 
     getBTNSPopup = async (arr) => {
@@ -200,213 +244,72 @@ class Render {
         })
     } 
 
-    getBTNSPagination = async (arr, currI) => {
-        let index = '';
-        const $pageCurrBTN = document.querySelector('.control-curr');
-
+    startPagination = async (arr, currI) => {
         const $pageFirstBTN = document.querySelector('.control-first');
-        if (currI === [0]) {
+        const $pagePrevBTN = document.querySelector('.control-prev');
+        const $pageCurrBTN = document.querySelector('.control-curr');
+        const $pageNextBTN = document.querySelector('.control-next');
+        const $pageLastBTN = document.querySelector('.control-last');
+        const $cards = document.querySelectorAll('.card');
+
+        makeCardsVisible($cards);
+
+        if (currI === 0) {
             $pageFirstBTN.disabled = true;
+            $pageFirstBTN.classList.add('inactive');
             $pagePrevBTN.disabled = true;
+            $pagePrevBTN.classList.add('inactive');
         }
-        else if (currI === [arr.length-1]) {
+        else if (currI === arr.length-1) {
             $pageNextBTN.disabled = true;
+            $pageNextBTN.classList.add('inactive');
             $pageLastBTN.disabled = true;
+            $pageLastBTN.classList.add('inactive');
+
         }
         $pageFirstBTN.addEventListener('click', ()=>{
-            
-            index = 'first';
-            let pagiArr = pagination(arr, currI, index);
-            this.loadContent(pagiArr);
-            $pageCurrBTN.innerText = curr(arr, currI);
-
-            console.log(pagiArr)
+            makeCardsTransparent($cards);
+            this.loadContent(arr[0]);
+            $pageCurrBTN.innerText = 1;
+            makeBtnInactive($pageFirstBTN, $pagePrevBTN);
+            makeBtnActive($pageNextBTN, $pageLastBTN);
+            setTimeout(makeCardsVisible($cards), 5000);
         });
-        const $pagePrevBTN = document.querySelector('.control-prev');
         $pagePrevBTN.addEventListener('click', ()=>{
-            index = 'prev';
-            let pagiArr = pagination(arr, currI, index);
-            this.loadContent(pagiArr);
-            console.log(pagiArr)
-            $pageCurrBTN.innerText = curr(arr, currI);
-
+            makeCardsTransparent($cards);         
+            currI-=1;
+            this.loadContent(arr[currI-1]);
+            $pageCurrBTN.innerText = arr.indexOf(currI)-1;
+            if (currI === 1) {
+                makeBtnInactive($pageFirstBTN, $pagePrevBTN);
+                makeBtnActive($pageNextBTN, $pageLastBTN);
+            }
+            setTimeout(makeCardsVisible($cards), 5000);
 
         });
 
-        const $pageNextBTN = document.querySelector('.control-next');
         $pageNextBTN.addEventListener('click', ()=>{
-            index = 'next';
-            let pagiArr = pagination(arr, currI, index);
-            this.loadContent(pagiArr);
-            $pageCurrBTN.innerText = curr(arr, currI);
-
-            console.log(currI)
+            makeCardsTransparent($cards);
+            currI+=1;
+            this.loadContent(arr[currI+1]);
+            $pageCurrBTN.innerText = currI+1;
+            if (currI === arr.length-1) {
+                makeBtnInactive($pageNextBTN, $pageLastBTN);
+                makeBtnActive($pageFirstBTN, $pagePrevBTN);
+            }
+            setTimeout(makeCardsVisible($cards), 5000);
         });
-        const $pageLastBTN = document.querySelector('.control-last');
         $pageLastBTN.addEventListener('click', ()=>{
-            index = 'last';
-            let pagiArr = pagination(arr, currI, index);
-            this.loadContent(pagiArr);
-            $pageCurrBTN.innerText = curr(arr, currI);
-
-            console.log(pagiArr)
+            makeCardsTransparent($cards);
+            this.loadContent(arr[arr.length-1]);
+            $pageCurrBTN.innerText = arr.length;
+            makeBtnInactive($pageNextBTN, $pageLastBTN);
+            makeBtnActive($pageFirstBTN, $pagePrevBTN);
+            setTimeout(makeCardsVisible($cards), 5000);
         });
         return {$pageFirstBTN, $pagePrevBTN, $pageCurrBTN, $pageNextBTN, $pageLastBTN};
     }
 
-    startPagination = async (arr, currI) => {
-        this.getBTNSPagination(arr, currI);
-    
-        //const linkedList = new LinkedList(bigArr);
-    }
-
-}
-
-
-class LinkedList {
-    constructor(arr) {
-        this._head = arr[0];
-        this._tail = arr[length];
-        this.length = arr.length;
-    }
-
-    append(data) {
-        let temp = new Node(data);
-        if (this.length == 0) {
-            this._head = temp;
-            this._tail = temp;
-        }
-        else {
-            temp.prev = this._tail;
-            this._tail.next = temp;
-            this._tail = temp;
-        }
-        this.length++;
-        return this;
-    }
-    // Should add node to the end of the list
-
-    head() {
-        if (this.length !== 0) {
-            return this._head.data;
-        }
-        else {
-            return this._head;
-        }
-    }
-    // Should return data from the head of the list
-
-    tail() {
-        if (this.length !== 0) {
-            return this._tail.data;
-        }
-        else {
-            return this._tail;
-        }
-    }
-    // Should return data from the end of the list
-
-    toTail() {
-
-    }
-
-    at(index) {
-        let currentNode = this._head;
-        let i = 0;
-        while (i != index) {
-            currentNode = currentNode.next;
-            i++;
-        }
-        return currentNode.data;
-    }
-    // Should return data of node by specified index
-
-    insertAt(index, data) {
-        let i = 0;
-        let currentNode = this._head;
-        let temp = new Node(data);
-        if (this._head == null && index == 0) {
-            this._head = temp;
-            this.tail = temp;
-            this.length++;
-        }
-        else if (this._head != null && this._tail != null && index > 0) {
-            while (i != index) {
-                currentNode = currentNode.next;
-                i++;
-            }
-            temp.prev = currentNode.prev;
-            temp.next = currentNode;
-            currentNode.prev.next = temp;
-        }
-        return this;
-    }
-    // Should insert data to specified index
-    
-    isEmpty() {
-        if (this.length === 0) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-    // Should return true if list is empty, false otherwise
-
-    clear() {
-        this._head = null;
-        this._tail = null;
-        this.length = 0;
-        return this;
-    }
-
-    deleteAt(index) {
-        let counter = 0;
-        let current = this._head;
-        if (this._head == this._tail) {
-            this._head = null;
-            this._tail = null;
-        } else {
-            while (counter != index) {
-                current = current.next;
-                counter++;
-            }
-            current.next.prev = current.prev;
-            current.prev.next = current.next;
-        }
-        this.length--;
-        return this;
-    }
-    // Should delete element by specified index
-
-    reverse() {
-        let currentNode = this._head;
-        let prev = null;
-        while (currentNode != null) {
-            let next = currentNode.next;
-            currentNode.next = prev;
-            currentNode.prev = next;
-            prev = currentNode;
-            currentNode = next;
-        }
-        this._tail = this._head;
-        this._head = prev;
-        return this;
-    }
-    // Should reverse the list
-
-    indexOf(data) {
-        let currentNode = this._head;
-        let i = 0;
-            for (let i = 0; i < this.length; i++) {
-            if (currentNode.data == data) {
-                return i;
-            }
-            currentNode = currentNode.next;
-        }
-        return -1;
-    }
-    // Should return index of specified value or -1 if list doesn't contain such
 }
 
 
