@@ -465,7 +465,8 @@ img:not([alt]) {
     grid-auto-rows: 0px;
     justify-items: center;
     justify-content: center;
-    grid-gap: 120px;
+    row-gap: 32px;
+    column-gap: 24px;
 }
 
 .help_column {
@@ -475,6 +476,13 @@ img:not([alt]) {
     justify-content: space-between;
     text-align: center;
     white-space: nowrap;
+    align-items: center;
+    width: 100%;
+    gap: 8px;
+}
+
+.help_column img {
+    width: 80%;
 }
 
 .in-addition {
