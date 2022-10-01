@@ -1,27 +1,27 @@
-const $menuBurgerBtn = document.querySelector("#menu-burger");
-const $menu = document.querySelector(".header-menu");
-const $logo = document.querySelector('.logo_wrapper');
+constmenuBurgerBtn = document.querySelector("#menu-burger");
+constmenu = document.querySelector(".header-menu");
+constlogo = document.querySelector('.logo_wrapper');
 
-const $fade = document.querySelector('.fade-off');
-const $cardPopup = document.querySelector('.card-popup');
-const $cardWrapper = document.querySelector('.cards_carousel');
+constfade = document.querySelector('.fade-off');
+constcardPopup = document.querySelector('.card-popup');
+constcardWrapper = document.querySelector('.cards_carousel');
 $menuBurgerBtn.addEventListener('click', () => {
     if (document.querySelector(".menu-open")) {$menu.classList.add('menu-close')};
-    $menu.classList.toggle('menu-open');
-    $menuBurgerBtn.classList.toggle('menu-burger-rotate');
+   menu.classList.toggle('menu-open');
+   menuBurgerBtn.classList.toggle('menu-burger-rotate');
 
     if (!document.querySelector(".fade-on")) {
-        $fade.classList.add('fade-on');
+       fade.classList.add('fade-on');
     }
     else {
-        $fade.classList.remove('fade-on');
+       fade.classList.remove('fade-on');
     }
 
-    $fade.addEventListener('click', () => {
-        $menu.classList.toggle('menu-open');
-        $menuBurgerBtn.classList.toggle('menu-burger-rotate');
-        $fade.classList.remove('fade-on');
-        $burgerSpans.forEach(item => {
+   fade.addEventListener('click', () => {
+       menu.classList.toggle('menu-open');
+       menuBurgerBtn.classList.toggle('menu-burger-rotate');
+       fade.classList.remove('fade-on');
+       burgerSpans.forEach(item => {
             item.classList.toggle('menu-burger-rotate-span');
         });
     })
@@ -140,7 +140,7 @@ class Card  {
                 </ul>
             </div>
         </div>`;        
-        $fade.classList.add('fade-on');
+       fade.classList.add('fade-on');
         return popupD;
     }
 }
@@ -191,14 +191,14 @@ class Render {
     }
 
     getBTNSPopup = async (arr) => {
-        const $cardBtns = document.querySelectorAll('.card-btn');
-        await $cardBtns.forEach(item => item.addEventListener('click', async function(){
+        constcardBtns = document.querySelectorAll('.card-btn');
+        awaitcardBtns.forEach(item => item.addEventListener('click', async function(){
             let nameBTN = this.previousSibling.previousSibling.innerText
             for(let i=0;i<arr.length;i++) {
                 if (arr[i].name === nameBTN) {
                     let popup = await arr[i].madePopup();
-                    $cardPopup.classList.remove('hidden');
-                    $cardPopup.insertAdjacentHTML('beforeend', popup);
+                   cardPopup.classList.remove('hidden');
+                   cardPopup.insertAdjacentHTML('beforeend', popup);
                     await newPet.closePopup();
                 }
             }          
@@ -206,41 +206,41 @@ class Render {
     }
 
     closePopup = async () => {
-        const $closePopupBTN = document.querySelector('.popup-close');
-        $closePopupBTN.addEventListener('click', ()=>{
-            $cardPopup.classList.add('hidden');
-            $cardPopup.innerHTML = '';
-            $fade.classList.remove('fade-on');
+        constclosePopupBTN = document.querySelector('.popup-close');
+       closePopupBTN.addEventListener('click', ()=>{
+           cardPopup.classList.add('hidden');
+           cardPopup.innerHTML = '';
+           fade.classList.remove('fade-on');
         })
 
-        $fade.addEventListener('click', function(){
-            $cardPopup.classList.add('hidden');
-            $cardPopup.innerHTML = '';
-            $fade.classList.remove('fade-on');
+       fade.addEventListener('click', function(){
+           cardPopup.classList.add('hidden');
+           cardPopup.innerHTML = '';
+           fade.classList.remove('fade-on');
         })
     } 
 
     startSlider = async (length, width, arr5) => {
-        const $prevCtrlSlider = document.querySelector('.control-prev');
+        constprevCtrlSlider = document.querySelector('.control-prev');
 
         let arrD = makeTwoDimensionalArray(length, width, arr5);
         let curr = 0;
         let { cardsArr, sliderHTML } = await this.loadContent(arrD[curr]);
-        $cardWrapper.insertAdjacentHTML("beforeEnd", sliderHTML);
+       cardWrapper.insertAdjacentHTML("beforeEnd", sliderHTML);
         await this.getBTNSPopup(cardsArr);
-        $prevCtrlSlider.addEventListener('click', async () => {
+       prevCtrlSlider.addEventListener('click', async () => {
             curr = (curr === 0) ? 2: curr - 1;
             let { cardsArr, sliderHTML } = await this.loadContent(arrD[curr]);
-            $cardWrapper.innerHTML = '';
-            $cardWrapper.insertAdjacentHTML("beforeEnd", sliderHTML);
+           cardWrapper.innerHTML = '';
+           cardWrapper.insertAdjacentHTML("beforeEnd", sliderHTML);
         })
 
-        const $nextCtrlSlider = document.querySelector('.control-next');
-        $nextCtrlSlider.addEventListener('click', async () => {
+        constnextCtrlSlider = document.querySelector('.control-next');
+       nextCtrlSlider.addEventListener('click', async () => {
             curr = (curr === 2) ? 0: curr + 1;
             let { cardsArr, sliderHTML } = await this.loadContent(arrD[curr]);
-            $cardWrapper.innerHTML = '';
-            $cardWrapper.insertAdjacentHTML("beforeEnd", sliderHTML);
+           cardWrapper.innerHTML = '';
+           cardWrapper.insertAdjacentHTML("beforeEnd", sliderHTML);
 
         })
     }

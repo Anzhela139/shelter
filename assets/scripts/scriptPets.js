@@ -111,9 +111,9 @@ class Card {
     madeCard = async (index) => {
         let cardD = `<div class="card fadeIn">
         <div class="card_image">
-            <img src="../{this.img}" alt="" class="card-img">
+            <img src="../${this.img}" alt="" class="card-img">
         </div>
-            <h4 class="card-name">{this.name}</h4>
+            <h4 class="card-name">${this.name}</h4>
             <button class="button-secondary card-btn">Learn more</button>
         </div>`;
         return cardD;
@@ -123,17 +123,17 @@ class Card {
         let popupD = `
         <button class="popup-close"><img src="../assets/icons/popup-close.svg" alt=""></button>
         <div class="card-popup_wrapper">
-            <img src="../{this.img}" alt=""class="card-popup_img">
+            <img src="../${this.img}" alt=""class="card-popup_img">
             <div class="card-popup_text-wrapper">
-                <h3 class="card-popup_name">{this.name}</h3>
-                <p class="card_type-breed"><span class="card-type">{this.type}</span> - <span class="card-breed">{this.breed}</span></p>
-                <p class="card-desc">{this.description}
+                <h3 class="card-popup_name">${this.name}</h3>
+                <p class="card_type-breed"><span class="card-type">${this.type}</span> - <span class="card-breed">${this.breed}</span></p>
+                <p class="card-desc">${this.description}
                 </p>
                 <ul>
-                    <li>Age: <span class="card-age">{this.age}</span></li>
-                    <li>Inoculations: <span class="card-inoculations">{this.inoculations}</span></li>
-                    <li>Diseases: <span class="card-diseases">{this.diseases}</span></li>
-                    <li>Parasites: <span class="card-parasites">{this.parasites}</span></li>
+                    <li>Age: <span class="card-age">${this.age}</span></li>
+                    <li>Inoculations: <span class="card-inoculations">${this.inoculations}</span></li>
+                    <li>Diseases: <span class="card-diseases">${this.diseases}</span></li>
+                    <li>Parasites: <span class="card-parasites">${this.parasites}</span></li>
                 </ul>
             </div>
         </div>`;
