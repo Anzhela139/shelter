@@ -7,13 +7,8 @@ const $cardPopup = document.querySelector('.card-popup');
 const $cardWrapper = document.querySelector('.cards_carousel');
 $menuBurgerBtn.addEventListener('click', () => {
     if (document.querySelector(".menu-open")) {$menu.classList.add('menu-close')};
-    console.log($menu);
     $menu.classList.toggle('menu-open');
     $menuBurgerBtn.classList.toggle('menu-burger-rotate');
-    $burgerSpans.forEach(item => {
-        item.classList.toggle('menu-burger-rotate-span');
-    });
-
 
     if (!document.querySelector(".fade-on")) {
         $fade.classList.add('fade-on');
@@ -31,9 +26,6 @@ $menuBurgerBtn.addEventListener('click', () => {
         });
     })
 })
-
-let winWidth = document.documentElement.clientWidth;
-console.log(winWidth)
 
 const randomizer = (max, min) => Math.ceil(Math.random() * (max - min) + min); 
 const randomArr = (arr) => arr.slice(0).sort( (a,b)=> 0.5-Math.random()); 
@@ -61,6 +53,32 @@ const makeArrConsistent =  (arr, itemA, itemD, index) => {
     return arr;
 }
 
+const makeElem = (type, className = '', text = '') => {
+    let el = document.createElement(type);
+    if (className) {
+        if (typeof className === 'string') {
+            el.classList.add(className);
+        } else {
+            className.forEach(item => el.classList.add(item));
+        }
+    };
+    let textNode = document.createTextNode(text);
+    el.appendChild(textNode);
+    return el;
+}
+
+const makeTwoDimensionalArray = ( length, width, data ) => {
+    let arr = Array.from(Array(length), () => Array(width));
+    let m = 0;
+    for(let i = 0; i < length; i++) {
+        for(let j = 0; j < width; j++) {
+            arr[i][j] = (data[m]) ? data[m] : data[m-data.length];
+            m++;
+        }
+    }
+    return arr;
+}
+
 const makeArrSlider = (arrFull, threeArr) => {
     let result = [];
     arrFull.forEach(item => {
@@ -80,26 +98,8 @@ const fetchingPets = async () => {
                              .catch(response => console.error(response))
 }
 
-class CardDOM {
-    constructor () {
-        this.nameDOM = document.querySelectorAll('.card-name');
-        this.imgDOM = document.querySelectorAll('.card-img');
-        this.namePopupDOM = document.querySelectorAll('.card-popup_name');
-        this.imgPopupDOM = document.querySelectorAll('.card-popup_img');
-        this.typeDOM = document.querySelectorAll('.card-type');
-        this.breedDOM = document.querySelectorAll('.card-breed');
-        this.descriptionDOM = document.querySelectorAll('.card-desc');
-        this.ageDOM = document.querySelectorAll('.card-age');
-        this.inoculationsDOM = document.querySelectorAll('.card-inoculations');
-        this.diseasesDOM = document.querySelectorAll('.card-diseases');
-        this.parasitesDOM = document.querySelectorAll('.card-parasites');
-    }
-
-}
-
-class Card extends CardDOM {
+class Card  {
     constructor ({name, img, type, breed, description, age, inoculations, diseases, parasites}) {
-        super(CardDOM);
         this.name = name;
         this.img = img;
         this.type = type;
@@ -112,76 +112,37 @@ class Card extends CardDOM {
     }
 
     madeCard = async (index) =>{
-        this.nameDOM[index].innerText = this.name || '';
-        this.imgDOM[index].src = this.img || '';
+        let cardD = `<div class="card">
+        <div class="card_image">
+            <img src="${this.img}" alt="" class="card-img">
+        </div>
+            <h4 class="card-name">${this.name}</h4>
+            <button class="button-secondary card-btn">Learn more</button>
+        </div>`;
+        return cardD;
     }
 
     madePopup = async () => {
-        this.namePopupDOM[0].innerText = this.name || '';
-        this.imgPopupDOM[0].src = this.img || '';
-        this.typeDOM[0].innerText = this.type || '';
-        this.breedDOM[0].innerText = this.breed || '';
-        this.descriptionDOM[0].innerText = this.description || '';
-        this.ageDOM[0].innerText = this.age || '';
-        this.inoculationsDOM[0].innerText = this.inoculations || '';
-        this.diseasesDOM[0].innerText = this.diseases || '';
-        this.parasitesDOM[0].innerText = this.parasites || '';
-        
+        let popupD = `
+        <button class="popup-close"><img src="../../assets/icons/popup-close.svg" alt=""></button>
+        <div class="card-popup_wrapper">
+            <img src="${this.img}" alt=""class="card-popup_img">
+            <div class="card-popup_text-wrapper">
+                <h3 class="card-popup_name">${this.name}</h3>
+                <p class="card_type-breed"><span class="card-type">${this.type}</span> - <span class="card-breed">${this.breed}</span></p>
+                <p class="card-desc">${this.description}
+                </p>
+                <ul>
+                    <li>Age: <span class="card-age">${this.age}</span></li>
+                    <li>Inoculations: <span class="card-inoculations">${this.inoculations}</span></li>
+                    <li>Diseases: <span class="card-diseases">${this.diseases}</span></li>
+                    <li>Parasites: <span class="card-parasites">${this.parasites}</span></li>
+                </ul>
+            </div>
+        </div>`;        
         $fade.classList.add('fade-on');
+        return popupD;
     }
-
-    madeElem = async (index, item) => {
-        let elWrap = document.createElement('div');
-        elWrap.classList.add('card');
-    
-        let elImgWrap = document.createElement('div');
-        elImgWrap.classList.add('card_image');
-    
-        let elImg = document.createElement('img');
-        elImg.classList.add('card-img');
-    
-        let elTitle = document.createElement('h4');
-        elTitle.classList.add('card-name');
-    
-        let elBtn = document.createElement('button');
-        let btnText = document.createTextNode('Learn more');
-        elBtn.classList.add('card-btn');
-        elBtn.classList.add('button-secondary');
-        elBtn.appendChild(btnText);
-    
-    
-        let $firstCard = document.querySelector('.card:first-of-type');
-        let $lastCard = document.querySelector('.card:last-of-type');
-
-        let nameSl = '';
-        let imgSl = '';
-        
-    
-        if (index === 'prev') {
-            $firstCard.before(elWrap);
-            elWrap.append(elImgWrap);
-            elImgWrap.append(elImg);
-            elWrap.append(elTitle);
-            elWrap.append(elBtn);
-
-            nameSl = document.querySelector('.card-name');
-            imgSl = document.querySelector('.card .card-img');
-        }
-        else if (index === 'next') {
-            $lastCard.after(elWrap);
-            elWrap.append(elImgWrap);
-            elImgWrap.append(elImg);
-            elWrap.append(elTitle);
-            elWrap.append(elBtn);
-
-            nameSl = document.querySelector(".cards_carousel > div:nth-child(3) > .card-name")
-            imgSl = document.querySelector('.card:nth-child(3) .card-img');    
-        }
-
-        nameSl.innerText = item.name || '';
-        imgSl.src = item.img || '';
-    }
-
 }
 
 class Render {
@@ -200,112 +161,91 @@ class Render {
         petsArr.forEach(item => {
             cardsArr.push(new Card(item));
         });
+        let sliderHTML = '';
         for(let i=0;i<cardsArr.length;i++) {
-            cardsArr[i].madeCard(i);
+            sliderHTML += await cardsArr[i].madeCard(i);
         }   
-        this.getBTNSPopup(cardsArr);
 
-        return cardsArr;
+        return { cardsArr, sliderHTML };
     }
 
     start = async () => {
         const pets = await this.getPets();
         let petsArr = [pets];
         let fullArr = petsArr.flat();
-        if (winWidth > 1280) {
-            petsArr = threeArr(fullArr);
-            let arrSlider = makeArrSlider(fullArr, petsArr);
+        this.winWidthResize(fullArr);
+        window.addEventListener('resize', () => {
+            this.winWidthResize(fullArr);
+        })
 
-            this.loadContent(petsArr);
-            this.startSlider(petsArr, arrSlider);
+    }
+
+    winWidthResize = async ( fullArr ) => {
+        if (document.documentElement.clientWidth > 1280) {
+            this.startSlider(3, 3, fullArr);
+        } else if (document.documentElement.clientWidth <= 1280 && document.documentElement.clientWidth > 768) {
+            this.startSlider(4, 2, fullArr);
+        } else if (document.documentElement.clientWidth <= 768) {
+            this.startSlider(8, 1, fullArr);
         }
-
-        else if (winWidth <= 1280 && winWidth > 768) {
-            document.querySelector('.cards_carousel > div:nth-child(3)').remove();
-
-            petsArr = twoArr(fullArr);
-            let arrSlider = makeArrSlider(fullArr, petsArr);
-
-            this.loadContent(petsArr);
-            this.startSlider(petsArr, arrSlider);
-        }
-        else if (winWidth <= 768) {
-            document.querySelector('.cards_carousel > div:nth-child(3)').remove();
-            document.querySelector('.cards_carousel > div:nth-child(2)').remove();
-
-            petsArr = oneArr(fullArr);
-            let arrSlider = makeArrSlider(fullArr, petsArr);
-
-            this.loadContent(petsArr);
-            this.startSlider(petsArr, arrSlider);
-        }
-
     }
 
     getBTNSPopup = async (arr) => {
         const $cardBtns = document.querySelectorAll('.card-btn');
-        $cardBtns.forEach(item => item.addEventListener('click', function(){
+        await $cardBtns.forEach(item => item.addEventListener('click', async function(){
             let nameBTN = this.previousSibling.previousSibling.innerText
             for(let i=0;i<arr.length;i++) {
                 if (arr[i].name === nameBTN) {
+                    let popup = await arr[i].madePopup();
                     $cardPopup.classList.remove('hidden');
-                    arr[i].madePopup();
+                    $cardPopup.insertAdjacentHTML('beforeend', popup);
+                    await newPet.closePopup();
                 }
             }          
         }))
-        this.closePopup();
     }
 
     closePopup = async () => {
         const $closePopupBTN = document.querySelector('.popup-close');
         $closePopupBTN.addEventListener('click', ()=>{
             $cardPopup.classList.add('hidden');
+            $cardPopup.innerHTML = '';
             $fade.classList.remove('fade-on');
-
         })
 
         $fade.addEventListener('click', function(){
             $cardPopup.classList.add('hidden');
+            $cardPopup.innerHTML = '';
             $fade.classList.remove('fade-on');
         })
     } 
 
-    startSlider = async (arr3, arr5) => {
+    startSlider = async (length, width, arr5) => {
         const $prevCtrlSlider = document.querySelector('.control-prev');
 
-
-        $prevCtrlSlider.addEventListener('click', ()=>{
-            let ranEl = randomEl(arr5);
-            let ranElIndex = arr5.indexOf(ranEl);
-            let itemV = arr3[arr3.length-1];
-            let el = new Card(arr5[ranElIndex]);
-            el.madeElem('prev', el);
-            let $lastCard = document.querySelector('.card:last-of-type');
-            $lastCard.remove();
-            makeArrConsistent(arr5, itemV, ranEl, 'prev');
-            makeArrConsistent(arr3, ranEl, itemV, 'prev');
-
-
+        let arrD = makeTwoDimensionalArray(length, width, arr5);
+        let curr = 0;
+        let { cardsArr, sliderHTML } = await this.loadContent(arrD[curr]);
+        $cardWrapper.insertAdjacentHTML("beforeEnd", sliderHTML);
+        await this.getBTNSPopup(cardsArr);
+        $prevCtrlSlider.addEventListener('click', async () => {
+            curr = (curr === 0) ? 2: curr - 1;
+            let { cardsArr, sliderHTML } = await this.loadContent(arrD[curr]);
+            $cardWrapper.innerHTML = '';
+            $cardWrapper.insertAdjacentHTML("beforeEnd", sliderHTML);
         })
 
         const $nextCtrlSlider = document.querySelector('.control-next');
-        $nextCtrlSlider.addEventListener('click', ()=>{
-            let ranEl = randomEl(arr5);
-            let ranElIndex = arr5.indexOf(ranEl);
-            let itemV = arr3[0];
-            let el = new Card(arr5[ranElIndex]);
-            let $firstCard = document.querySelector('.card:first-of-type');
-            $firstCard.remove();
-            el.madeElem('next', el);
-            makeArrConsistent(arr5, itemV, ranEl, 'next');
-            makeArrConsistent(arr3, ranEl, itemV, 'next');
+        $nextCtrlSlider.addEventListener('click', async () => {
+            curr = (curr === 2) ? 0: curr + 1;
+            let { cardsArr, sliderHTML } = await this.loadContent(arrD[curr]);
+            $cardWrapper.innerHTML = '';
+            $cardWrapper.insertAdjacentHTML("beforeEnd", sliderHTML);
 
         })
     }
 
 }
-
-
 
 const newPet = new Render();
 newPet.start()

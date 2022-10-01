@@ -1,5 +1,6 @@
 body {
     width: 100vw;
+    max-width: 100vw;
     height: 100%;
     font-family: 'Arial', sans-serif;
     color: #C4C4C4;
@@ -307,7 +308,7 @@ img:not([alt]) {
 }
 
 .cards_slider {
-    width: 100%;
+    width: 90%;
     height:  max(435px, calc(100% + 20px));
     margin: 60px 0;
     position: relative;
@@ -387,7 +388,9 @@ img:not([alt]) {
     background-color: #FAFAFA;
     box-shadow: 0px 2px 35px 14px rgba(13, 13, 13, 0.04);
     border-radius: 9px;
-    position: relative;
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
     color: #000000;
     font-family: 'Georgia', serif;
 }
@@ -677,7 +680,7 @@ footer .location a:hover {
     }
 
     .menu-burger-span {
-        background-color: #000000;
+        background-color: #F1CDB3;
     }
 
     nav .menu-burger span:last-of-type {
@@ -685,12 +688,10 @@ footer .location a:hover {
     }
 
     .header-menu {
+        margin-top: -2rem;
         position: absolute;
         top: 0;
-        transform: translateX(120%);
-    }
-
-    nav .menu-open {
+        transform: translateX(100%);
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -701,11 +702,14 @@ footer .location a:hover {
         min-width: 100vw;
         min-height: 100vh;
         height: 100vh;
-        animation: slideIn 0.4s ease-in-out;
+        transition: 0.4s ease-in-out;
+    }
+
+    nav .menu-open {
         transform: translateX(0%);
     }
 
-    .menu-open ul {
+    .header-menu ul {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -713,36 +717,27 @@ footer .location a:hover {
         transform: translateY(-85%);
     }
 
-    .menu-open li a {
+    .header-menu  li a {
         font-size: 32px;
     }
 
-    .menu-open li {
+    .header-menu  li {
         padding: 0;
     }
 
-    .menu-open .logo_wrapper {
+    .header-menu  .logo_wrapper {
         margin-top: 30px;
         display: flex;
         flex-direction: column;
     }
 
-    nav .menu-open .logo_wrapper {
+    nav .header-menu  .logo_wrapper {
         align-self: start;
     }
 
 
-    nav .menu-open a {
+    nav .header-menu  a {
         color: #CDCDCD;
-    }
-
-    @keyframes slideIn {
-        from {
-            transform: translateX(100%);
-        }
-        to {
-            transform: translateX(0%);
-        }
     }
 
     .not-only_wrapper {

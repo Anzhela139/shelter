@@ -235,7 +235,6 @@ class Render {
         $closePopupBTN.addEventListener('click', ()=>{
             $cardPopup.classList.add('hidden');
             $fade.classList.remove('fade-on');
-
         })
 
         $fade.addEventListener('click', function(){
@@ -266,6 +265,15 @@ class Render {
             $pageLastBTN.disabled = true;
             $pageLastBTN.classList.add('inactive');
 
+        } else if (currI > 0 && currI < arr.length-1) {
+            $pageFirstBTN.disabled = false;
+            $pageFirstBTN.classList.remove('inactive');
+            $pagePrevBTN.disabled = false;
+            $pagePrevBTN.classList.remove('inactive');
+            $pageNextBTN.disabled = false;
+            $pageNextBTN.classList.remove('inactive');
+            $pageLastBTN.disabled = false;
+            $pageLastBTN.classList.remove('inactive');
         }
         $pageFirstBTN.addEventListener('click', ()=>{
             makeCardsTransparent($cards);
@@ -276,14 +284,15 @@ class Render {
             setTimeout(makeCardsVisible($cards), 5000);
         });
         $pagePrevBTN.addEventListener('click', ()=>{
-            makeCardsTransparent($cards);         
+            makeCardsTransparent($cards);    
+            console.log(currI);     
             currI-=1;
-            this.loadContent(arr[currI-1]);
-            $pageCurrBTN.innerText = arr.indexOf(currI)-1;
-            if (currI === 1) {
+            this.loadContent(arr[currI]);
+            $pageCurrBTN.innerText = currI+1;
+            if (currI === 0) {
                 makeBtnInactive($pageFirstBTN, $pagePrevBTN);
-                makeBtnActive($pageNextBTN, $pageLastBTN);
             }
+            makeBtnActive($pageNextBTN, $pageLastBTN);
             setTimeout(makeCardsVisible($cards), 5000);
 
         });
@@ -291,12 +300,12 @@ class Render {
         $pageNextBTN.addEventListener('click', ()=>{
             makeCardsTransparent($cards);
             currI+=1;
-            this.loadContent(arr[currI+1]);
+            this.loadContent(arr[currI]);
             $pageCurrBTN.innerText = currI+1;
             if (currI === arr.length-1) {
                 makeBtnInactive($pageNextBTN, $pageLastBTN);
-                makeBtnActive($pageFirstBTN, $pagePrevBTN);
             }
+            makeBtnActive($pageFirstBTN, $pagePrevBTN);
             setTimeout(makeCardsVisible($cards), 5000);
         });
         $pageLastBTN.addEventListener('click', ()=>{

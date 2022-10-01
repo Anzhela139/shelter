@@ -125,6 +125,7 @@ a {
     color: #CDCDCD;
     text-decoration: none;
     transition: .15s ease-in-out;
+    border-bottom: 3px solid transparent;
 }
 
 .link-active {
@@ -138,6 +139,7 @@ a {
 
 a:hover {
     color: #FAFAFA;
+    border-bottom: 3px solid #F1CDB3;
 }
 
 header,
@@ -272,6 +274,11 @@ nav ul li:last-of-type {
     opacity: 1;
 }
 
+.card_image {
+    max-width: 90%;
+    border-radius: 5px;
+}
+
 .pagination-controls {
     min-width: 300px;
     max-width: 340px;
@@ -318,6 +325,12 @@ nav ul li:last-of-type {
             user-select: none;
 }
 
+.pagination-control:hover,
+.popup-close:hover {
+    background: #FDDCC4;
+    border: 2px solid #FDDCC4;
+}
+
 .inactive,
 .inactive:hover {
     border: 2px solid #CDCDCD;
@@ -327,12 +340,6 @@ nav ul li:last-of-type {
             user-select: none;
     color:  #CDCDCD;
     background-color: transparent;
-}
-
-.pagination-control:hover,
-.popup-close:hover {
-    background: #FDDCC4;
-    border: 2px solid #FDDCC4;
 }
 
 .popup-close {
@@ -348,7 +355,9 @@ nav ul li:last-of-type {
     background-color: #FAFAFA;
     box-shadow: 0px 2px 35px 14px rgba(13, 13, 13, 0.04);
     border-radius: 9px;
-    position: relative;
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
     color: #000000;
     font-family: 'Georgia', serif;
 }
