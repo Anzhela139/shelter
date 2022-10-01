@@ -72,7 +72,7 @@ h5 {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 261px;
+    width: 207px;
     height: 52px;
     background: #F1CDB3;
     border-radius: 100px;
@@ -151,7 +151,7 @@ footer {
 .help_wrapper,
 .in-addition_wrapper,
 .footer_wrapper {
-    width: clamp(800px, 85%, 1200px);
+    width: clamp(800px, 100%, 1200px);
     position: relative;
 }
 
@@ -204,6 +204,7 @@ nav ul li:last-of-type {
 .not-only {
     background: radial-gradient(100% 215.42% at 0% 0%, #5B483A 0%, #262425 100%), #211F20;
     height: 100%;
+    min-height: 908px;
 }
 
 .not-only_text-wrapper {
@@ -236,8 +237,7 @@ nav ul li:last-of-type {
     min-height: 588px;
 }
 
-.about_wrapper,
-.in-addition_wrapper {
+.about_wrapper {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     align-items: center;
@@ -382,9 +382,20 @@ nav ul li:last-of-type {
     min-height: 464px;
 }
 
+.in-addition_wrapper {
+    display: grid;
+    grid-template-columns: 56% 44%;
+    align-items: center;
+}
+
+.in-addition_wrapper img {
+    justify-self: end;
+}
+
 .in-addition_text-wrapper {
     max-width: 380px;
     min-height: 282px;
+    justify-self: start;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -407,7 +418,7 @@ nav ul li:last-of-type {
 
 footer {
     background: radial-gradient(110.67% 538.64% at 5.73% 50%, #513D2F 0%, #1A1A1C 100%), #211F20;
-
+    min-height: 350px;
 }
 
 .footer_wrapper {
@@ -415,11 +426,29 @@ footer {
     grid-template-columns: repeat(3, 1fr);
 }
 
+.footer_wrapper img {
+    align-self: end;
+    justify-self: end;
+}
+
 footer .contacts,
 footer .location {
     justify-self: center;
     align-self: center;
     max-width: 278px;
+    min-height: 234px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+footer .contacts img,
+footer .location img {
+    padding-right: 20px;
+}
+
+footer .contacts {
+    justify-self: start;
 }
 
 footer .contacts h3,
@@ -435,28 +464,13 @@ footer .contacts a {
 footer .contacts a,
 footer .location a {
     position: relative;
-    left: 50px;
     color: #F1CDB3;
     transition: 0.15s ease-in-out;
+    display: flex;
+    align-items: center;
 }
 
 footer .contacts a:hover,
 footer .location a:hover {
     color: #FDDCC4;
-}
-
-footer .contacts a::before {
-    position: absolute;
-    content: '';
-    width: 40px;
-    height: 30px;
-    left: -45px;
-}
-
-footer .contacts a:nth-of-type(1)::before {
-    background: url(../../assets/icons/icon-email.svg);
-}
-
-footer .contacts a:nth-of-type(2)::before {
-    background: url(../../assets/icons/icon-phone.svg);
 }

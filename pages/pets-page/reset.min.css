@@ -1,0 +1,35 @@
+/* https://github.com/hankchizljaw/modern-css-reset 
+A modern CSS reset
+The Uncompressed size of this reset The GZIP size of this reset The Brotli size of this reset License: MIT
+
+A tiny little reset that you can use as the basis of your CSS projects. You can read a breakdown of it here.
+
+Installation
+NPM:
+
+npm install --save-dev modern-css-reset
+Yarn:
+
+yarn add modern-css-reset
+Unpkg CDN:
+
+<link rel="stylesheet" href="https://unpkg.com/modern-css-reset/dist/reset.min.css" />
+jsDelivr CDN:
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/modern-css-reset/dist/reset.min.css" />
+Manual installation
+First, let's clone this repository:
+
+git clone https://github.com/hankchizljaw/modern-css-reset.git
+Then, go to modern-css-reset directory:
+
+cd modern-css-reset
+And now, you can minify and move the main reset to the dist by running:
+
+npm run build
+That's it! 🎉
+
+License
+MIT*/
+
+*,*::before,*::after{box-sizing:border-box}ul[class],ol[class]{padding:0}body,h1,h2,h3,h4,p,ul[class],ol[class],figure,blockquote,dl,dd{margin:0}body{min-height:100vh;scroll-behavior:smooth;text-rendering:optimizeSpeed;line-height:1.5}ul[class],ol[class]{list-style:none}a:not([class]){text-decoration-skip-ink:auto}img{max-width:100%;display:block}article>*+*{margin-top:1em}input,button,textarea,select{font:inherit}img:not([alt]){filter:blur(10px)}@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important}}
