@@ -238,8 +238,9 @@ nav ul li:last-of-type {
     width: 100%;
     min-height: 930px;
     display: grid;
-    grid-template-columns: repeat(4, 25%);
-    grid-template-rows: repeat(2, 50%);
+    grid-template-columns: repeat(4, auto);
+    grid-template-rows: repeat(2, auto);
+    gap: 42px;
 }
 
 .pagination {
@@ -253,7 +254,6 @@ nav ul li:last-of-type {
 
 .card {
     width: 270px;
-    height: 435px;
     justify-self: center;
     display: flex;
     flex-direction: column;
@@ -272,7 +272,8 @@ nav ul li:last-of-type {
 .card_image {
     max-width: 90%;
     border-radius: 5px;
-    height: 270px;
+    height: fit-content;
+    overflow: hidden;
 }
 
 .pagination-controls {
@@ -486,14 +487,10 @@ footer .location a:hover {
     }
 
     .cards_wrapper {
-        grid-template-columns: repeat(2, 50%);
+        grid-template-columns: repeat(3, auto);
         grid-template-rows: repeat(3, 1fr);
         width: calc(100% - 60px);
         min-height: 1733px;
-    }
-
-    .card {
-        height: 435px;
     }
 
     .footer_wrapper {

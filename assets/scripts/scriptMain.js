@@ -1,11 +1,13 @@
 import Main from './script.js';
-import { makeTwoDimensionalArray } from './utils.js';
-
-
 
 class Render extends Main {
     constructor() {
         super();
+
+        this.sliderArray = [];
+        this.sliderWrapper = document.querySelector('.cards_carousel--wrapper');
+        this.sliderElem = document.querySelector('.cards_carousel');
+        this.max = 0;
 
         this.start();
     }
@@ -17,47 +19,42 @@ class Render extends Main {
         window.addEventListener('resize', this.winWidthResize.bind(this, this.petsArr, this.initSlider.bind(this)))
     }
 
-    initSlider( winNum ) {
-        this.startSlider(winNum === 1 
-            ? (3, 3)
-            : winNum === 2 
-                ? (4, 2) 
-                : (8, 1));
+    initSlider(winNum) {
+        this.startSlider(winNum);
     }
 
-    async handleSlidChange(curr) {
-        let { cardsArr, sliderHTML } = await this.loadContent(arrD[curr]);
-        this.cardWrapper.innerHTML = '';
-        this.cardWrapper.insertAdjacentHTML("beforeEnd", sliderHTML);
+    handleSlidChange(event) {
+        const isNext = event.target.closest('.slider-control').classList.contains('control-next');
+        if((this.current === this.max && isNext) || (this.current === 0 && !isNext)) return;
+
+        this.current = isNext 
+                    ? (this.current === this.max) ? this.current : this.current + 1 
+                    : (this.current === 0) ? 0 : this.current - 1;
+
+        let carouselWidth = this.sliderWrapper.getBoundingClientRect()?.width / (this.max === 5 ? 3 : 1);
+        carouselWidth = carouselWidth <= 310 ? 310 : carouselWidth;
+        const currentLeft = parseInt(this.sliderElem.style.transform?.replace(/[^\.\d]/gi, '') || '0');
+        const sliderLeft = (isNext ? carouselWidth + currentLeft : currentLeft - carouselWidth);
+
+        this.sliderElem.style.transform = `translateX(-${sliderLeft || 0}px)`;
     }
 
-    startSlider = async (length, width ) => {
+    startSlider(winNum) {
+        this.max = winNum !== 3 ? 5 : 7;
+        
         const prevCtrlSlider = document.querySelector('.control-prev');
+        const nextCtrlSlider = document.querySelector('.control-next');
 
-        let arrD = makeTwoDimensionalArray(length, width, this.petsArr);
-        let curr = 0;
-        let { cardsArr, sliderHTML } = await this.loadContent(arrD[curr]);
+        let sliderHTML = this.loadContent(this.sliderArray[0]);
         this.cardWrapper.insertAdjacentHTML("beforeEnd", sliderHTML);
 
         [...document.querySelectorAll('.card-btn')]
             .map(item => item.addEventListener('click', this.handleOpenPopup.bind(this)));
 
-        prevCtrlSlider.addEventListener('click', async () => {
-            curr = (curr === 0) ? 2 : curr - 1;
-            let { cardsArr, sliderHTML } = await this.loadContent(arrD[curr]);
-            this.cardWrapper.innerHTML = '';
-            this.cardWrapper.insertAdjacentHTML("beforeEnd", sliderHTML);
-        })
-
-        const nextCtrlSlider = document.querySelector('.control-next');
-        nextCtrlSlider.addEventListener('click', async () => {
-            curr = (curr === 2) ? 0 : curr + 1;
-            let { cardsArr, sliderHTML } = await this.loadContent(arrD[curr]);
-            this.cardWrapper.innerHTML = '';
-            this.cardWrapper.insertAdjacentHTML("beforeEnd", sliderHTML);
-
-        })
+        prevCtrlSlider.addEventListener('click', this.handleSlidChange.bind(this));
+        nextCtrlSlider.addEventListener('click', this.handleSlidChange.bind(this));
     }
 
 }
+
 document.addEventListener('DOMContentLoaded', new Render());

@@ -13,7 +13,7 @@ class Card {
         this.parasites = parasites;
     }
 
-    madeCard = async () => {
+    madeCard() {
         let cardD = `<div class="card fadeIn">
         <div class="card_image">
             <img src="${this.img}" alt="" class="card-img">
@@ -25,7 +25,6 @@ class Card {
     }
 
     madePopup(fade) {
-        console.log(this)
         let popupD = `
         <button class="popup-close"><img src="../../assets/icons/popup-close.svg" alt=""></button>
         <div class="card-popup_wrapper">
@@ -43,6 +42,7 @@ class Card {
                 </ul>
             </div>
         </div>`;
+        
         fade.classList.add('fade-on');
         return popupD;
     }
@@ -62,73 +62,51 @@ class Main {
         this.cards = []
         this.petsArr = [];
         this.current = 0;
+
         this.init();
     }
 
     init() {
-        this.menuBurgerBtn.addEventListener('click', () => {
-            if (document.querySelector(".menu-open")) { $menu.classList.add('menu-close') };
-            this.menu.classList.toggle('menu-open');
-            this.menuBurgerBtn.classList.toggle('menu-burger-rotate');
-
-            if (!document.querySelector(".fade-on")) {
-                this.fade.classList.add('fade-on');
-            }
-            else {
-                this.fade.classList.remove('fade-on');
-            }
-
-            this.fade.addEventListener('click', () => {
-                this.menu.classList.toggle('menu-open');
-                this.menuBurgerBtn.classList.toggle('menu-burger-rotate');
-                this.fade.classList.remove('fade-on');
-                this.burgerSpans.forEach(item => {
-                    item.classList.toggle('menu-burger-rotate-span');
-                });
-            })
-        })
+        this.menuBurgerBtn.addEventListener('click', this.handleMobileMenu.bind(this));
     }
 
-    start() {
+    handleMobileMenu() {
+        if (document.querySelector(".menu-open")) { 
+            this.menu.classList.add('menu-close') 
+        }
+        this.menu.classList.toggle('menu-open');
+        this.menuBurgerBtn.classList.toggle('menu-burger-rotate');
         const burgerSpans = document.querySelectorAll('#menu-burger span');
-        menuBurgerBtn.addEventListener('click', () => {
-            if (document.querySelector(".menu-open")) { menu.classList.add('menu-close') };
-            console.log(menu);
-            menu.classList.toggle('menu-open');
-            menuBurgerBtn.classList.toggle('menu-burger-rotate');
+        if(burgerSpans) {
             burgerSpans.forEach(item => {
                 item.classList.toggle('menu-burger-rotate-span');
             });
+        }
+        if (!document.querySelector(".fade-on")) {
+            this.fade.classList.add('fade-on');
+        } else {
+            this.fade.classList.remove('fade-on');
+        }
 
-
-            if (!document.querySelector(".fade-on")) {
-                fade.classList.add('fade-on');
-            }
-            else {
-                fade.classList.remove('fade-on');
-            }
-
-            fade.addEventListener('click', () => {
-                menu.classList.toggle('menu-open');
-                menuBurgerBtn.classList.toggle('menu-burger-rotate');
-                fade.classList.remove('fade-on');
-                burgerSpans.forEach(item => {
-                    item.classList.toggle('menu-burger-rotate-span');
-                });
-            })
+        this.fade.addEventListener('click', () => {
+            this.menu.classList.toggle('menu-open');
+            this.menuBurgerBtn.classList.toggle('menu-burger-rotate');
+            this.fade.classList.remove('fade-on');
+            this.burgerSpans.forEach(item => {
+                item.classList.toggle('menu-burger-rotate-span');
+            });
         })
     }
 
-    loadContent = async () => {
+    loadContent() {
         let sliderHTML = '';
-        this.petsArr.forEach(item => {
-            console.log(item)
-            this.cards.push(new Card(item, this.isPages));
-        });
 
-        for (let i = 0; i < this.cards.length; i++) {
-            sliderHTML += await this.cards[i].madeCard(i);
-        }
+        this.petsArr.map((el, index) => {
+            const newCard = new Card(el, this.isPages);
+            this.cards.push(newCard);
+
+            sliderHTML += newCard.madeCard(index);
+        })
 
         return sliderHTML;
     }
@@ -153,7 +131,6 @@ class Main {
 
         this.cards.map((el) => {
             if (el.name === petName) {
-                console.log(el)
                 let popup = el.madePopup(this.fade);
                 this.cardPopup.classList.remove('hidden');
                 this.cardPopup.insertAdjacentHTML('beforeend', popup);
