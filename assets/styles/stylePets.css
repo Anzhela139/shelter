@@ -352,6 +352,7 @@ nav ul li:last-of-type {
     box-shadow: 0px 2px 35px 14px rgba(13, 13, 13, 0.04);
     border-radius: 9px;
     position: fixed;
+    display: flex;
     top: 50%;
     transform: translateY(-50%);
     color: #000000;
@@ -361,6 +362,11 @@ nav ul li:last-of-type {
 .card-popup .card-name {
     color: #000000;
     text-align: left;
+}
+
+.card-popup_text-wrapper {
+    align-self: center;
+    margin-right: 2rem;
 }
 
 .card-popup_img {
