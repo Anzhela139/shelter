@@ -66,13 +66,19 @@ h5 {
     color: #B2B2B2;
 }
 
-.button-primary {
-    appearance: none;
+button {
+    -webkit-appearance: none;
+       -moz-appearance: none;
+            appearance: none;
     outline: none;
     border: none;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.button-primary {
+
     width: 207px;
     height: 52px;
     background: #F1CDB3;
@@ -92,7 +98,9 @@ h5 {
 }
 
 .button-secondary {
-    appearance: none;
+    -webkit-appearance: none;
+       -moz-appearance: none;
+            appearance: none;
     outline: none;
     border: none;
     display: flex;
@@ -281,26 +289,29 @@ nav ul li:last-of-type {
     align-items: center;
 }
 
-.cards_wrapper {
+.cards_carousel--wrapper {
     width: 85%;
     height: max(435px, calc(100% + 20px));
     min-height: 435px;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     overflow-x: hidden;
-    transition: transform .3s ease-in-out;
+    position: relative;
 }
 
 .cards_carousel {
-    width: 100%;
+    width: fit-content;
+    left: 0;
     height: 100%;
     min-height: 435px;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    overflow-x: hidden;
+    gap: 42px;
+    position: relative;
+    transition: transform .3s ease-in-out;
 }
 
 img:not([alt]) {
@@ -336,7 +347,10 @@ img:not([alt]) {
 }
 
 .card_image {
-    height: 270px;
+    max-width: 90%;
+    border-radius: 5px;
+    height: fit-content;
+    overflow: hidden;
 }
 
 .sliders-controls {
@@ -349,8 +363,11 @@ img:not([alt]) {
 }
 
 .slider-control,
+.pagination-control,
 .popup-close {
-    appearance: none;
+    -webkit-appearance: none;
+       -moz-appearance: none;
+            appearance: none;
     outline: none;
     border: none;
     background: transparent;
@@ -380,6 +397,7 @@ img:not([alt]) {
 }
 
 .slider-control:hover,
+.pagination-control:hover,
 .popup-close:hover {
     background: #FDDCC4;
     border: 2px solid #FDDCC4;
@@ -393,6 +411,7 @@ img:not([alt]) {
     box-shadow: 0px 2px 35px 14px rgba(13, 13, 13, 0.04);
     border-radius: 9px;
     position: fixed;
+    display: flex;
     top: 50%;
     transform: translateY(-50%);
     color: #000000;
@@ -407,6 +426,11 @@ img:not([alt]) {
 .card-popup_img {
     align-self: center;
     justify-self: center;
+}
+
+.card-popup_text-wrapper {
+    align-self: center;
+    margin-right: 2rem;
 }
 
 .card-popup ul {
@@ -623,12 +647,6 @@ footer .location a:hover {
         order: 2;
     }
 
-    .cards_wrapper {
-        grid-template-columns: repeat(2, 50%);
-        grid-template-rows: repeat(2, 50%);
-        width: calc(85% - 60px);
-    }
-
     .help_wrapper-grid {
         grid-template-columns: repeat(3, 1fr);
         grid-template-rows: 1fr 1fr 1fr;
@@ -782,15 +800,17 @@ footer .location a:hover {
         width: 90%;
     }
 
-    .cards_wrapper {
+    .cards_carousel--wrapper {
         display: flex;
         flex-direction: column;
         width: calc(100% - 60px);
     }
 
-    .cards_wrapper {
-        grid-template-columns: repeat(2, 50%);
-        grid-template-rows: repeat(2, 50%);
+    .cards_slider {
+        width: 90vw;
+    }
+
+    .cards_carousel--wrapper {
         width: calc(85% - 60px);
     }
 
