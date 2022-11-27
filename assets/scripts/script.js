@@ -1,5 +1,6 @@
 import { fetchingPets } from './utils.js';
 
+/** инициализирует карточку питомца */
 class Card {
     constructor({ name, img, type, breed, description, age, inoculations, diseases, parasites }, isPages) {
         this.name = name;
@@ -13,6 +14,10 @@ class Card {
         this.parasites = parasites;
     }
 
+    /**
+     * @description - возвращает карточку питомца в виде HTML строки
+     * @return {HTMLDivElement} карточка питомца в виде HTML строки
+     */
     madeCard() {
         let cardD = `<div class="card fadeIn">
         <div class="card_image">
@@ -24,6 +29,11 @@ class Card {
         return cardD;
     }
 
+    /**
+     * @description - возвращает попап питомца в виде HTML строки
+     * @param {HTMLDivElement} fade - элемент-затемнение
+     * @return {HTMLDivElement} попап питомца в виде HTML строки
+     */
     madePopup(fade) {
         let popupD = `
         <button class="popup-close"><img src="../../assets/icons/popup-close.svg" alt=""></button>
@@ -48,6 +58,7 @@ class Card {
     }
 }
 
+/** инициализирует главный функционал, общий для всех страниц */
 class Main {
     constructor() {
         this.cardWrapper = document.querySelector('.cards_carousel, .cards_wrapper');
@@ -65,11 +76,17 @@ class Main {
 
         this.init();
     }
-
+    
+    /**
+     * @description - инициализирует главный функционал, общий для всех страниц
+     */
     init() {
         this.menuBurgerBtn.addEventListener('click', this.handleMobileMenu.bind(this));
     }
 
+    /**
+     * @description - хандлер мобильного меню
+     */
     handleMobileMenu() {
         if (document.querySelector(".menu-open")) { 
             this.menu.classList.add('menu-close') 
@@ -98,6 +115,10 @@ class Main {
         })
     }
 
+    /**
+     * @description - возвращает контент с питомцами  в виде HTML
+     * @return {HTMLDivElement} контент с питомцами в виде HTML
+     */
     loadContent() {
         let sliderHTML = '';
 
@@ -111,11 +132,21 @@ class Main {
         return sliderHTML;
     }
 
+    /**
+     * @description - подргужает массив с питомцами
+     * @return {Array<Object>} - массив с питомцами
+     */
     getPets = async () => {
         let fetchPets = await fetchingPets(this.isPages ? './../' : './');
         return fetchPets;
     }
 
+    /**
+     * @description - хандлер изменения размеров окна
+     * @param {Object} obj - this контекст
+     * @param {Array<Object>} fullArr - массив с питомцами
+     * @param {Function} func - функция, вызываемая при изменения размеров окна
+     */
     winWidthResize(obj, fullArr, func) {
         if (this.winWidth > 1280) {
             func(1);
@@ -126,6 +157,9 @@ class Main {
         }
     }
 
+    /**
+     * @description - хандлер открытия попапа
+     */
     handleOpenPopup(e) {
         const petName = e.target.closest('.card-btn').dataset['petName'];
 
@@ -140,6 +174,9 @@ class Main {
         })
     }
 
+    /**
+     * @description - хандлер закрытия попапа
+     */
     handleClosePopup() {
         this.cardPopup.classList.add('hidden');
         this.cardPopup.innerHTML = '';
@@ -147,6 +184,9 @@ class Main {
         this.fade.classList.remove('fade-on');
     }
 
+    /**
+     * @description - инициализирует главный функционал, общий для всех страниц
+     */
     initClosePopup() {
         const closePopupBTN = document.querySelector('.popup-close');
         closePopupBTN.addEventListener('click', this.handleClosePopup.bind(this))

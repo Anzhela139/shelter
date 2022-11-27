@@ -1,6 +1,7 @@
 import Main from './script.js';
 import { makeArray, setBtnActivity } from './utils.js';
 
+/** инициализирует страницу с питомцами */
 class Render extends Main {
     constructor() {
         super();
@@ -16,6 +17,9 @@ class Render extends Main {
         this.start();
     }
 
+    /**
+     * @description - инициализирует страницу с питомцами
+     */
     async start() {
         this.petsArr = await this.getPets();
 
@@ -23,6 +27,10 @@ class Render extends Main {
         window.addEventListener('resize', this.winWidthResize.bind(this, this.petsArr, this.initSlider.bind(this)))
     }
 
+    /**
+     * @description - инициализирует пагинацию при загрузке страницы, и изменении размеров окна
+     * @param {Number} winNum код размеров окна
+     */
     initSlider( winNum ) {
         this.paginationArray = makeArray(this.petsArr, winNum === 1 
                                     ? (6, 48)
@@ -39,6 +47,9 @@ class Render extends Main {
         this.startPagination(this.paginationArray);
     }
 
+    /**
+     * @description - хандлер изменения пагинации
+     */
     handlePaginationChange(event) {
         const btn = event.target.closest('.pagination-control');
         if(btn.classList.contains('control-first')) {
@@ -66,6 +77,9 @@ class Render extends Main {
             .map(item => item.addEventListener('click', this.handleOpenPopup.bind(this)));
     }
 
+    /**
+     * @description - инициализирует пагинацию на странице питомцев
+     */
     startPagination() {
         let sliderHTML = this.loadContent(this.paginationArray[this.current]);
         this.cardWrapper.innerHTML = sliderHTML;

@@ -1,5 +1,6 @@
 import Main from './script.js';
 
+/** инициализирует главную страницы приложения */
 class Render extends Main {
     constructor() {
         super();
@@ -12,6 +13,9 @@ class Render extends Main {
         this.start();
     }
 
+    /**
+     * @description - главную страницы приложения
+     */
     start = async () => {
         this.petsArr = await this.getPets();
 
@@ -19,10 +23,17 @@ class Render extends Main {
         window.addEventListener('resize', this.winWidthResize.bind(this, this.petsArr, this.initSlider.bind(this)))
     }
 
+    /**
+     * @description - инициализирует слайдер при загрузке страницы, и изменении размеров окна
+     * @param {Number} winNum код размеров окна
+     */
     initSlider(winNum) {
         this.startSlider(winNum);
     }
 
+    /**
+     * @description - хандлер изменения слайдера
+     */
     handleSlidChange(event) {
         const isNext = event.target.closest('.slider-control').classList.contains('control-next');
         if((this.current === this.max && isNext) || (this.current === 0 && !isNext)) return;
@@ -39,6 +50,10 @@ class Render extends Main {
         this.sliderElem.style.transform = `translateX(-${sliderLeft || 0}px)`;
     }
 
+    /**
+     * @description - инициализирует слайдер на главной странице
+     * @param {Number} winNum код размеров окна
+     */
     startSlider(winNum) {
         this.max = winNum !== 3 ? 5 : 7;
         
