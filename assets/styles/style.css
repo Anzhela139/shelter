@@ -66,13 +66,19 @@ h5 {
     color: #B2B2B2;
 }
 
-.button-primary {
-    appearance: none;
+button {
+    -webkit-appearance: none;
+       -moz-appearance: none;
+            appearance: none;
     outline: none;
     border: none;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.button-primary {
+
     width: 207px;
     height: 52px;
     background: #F1CDB3;
@@ -92,7 +98,9 @@ h5 {
 }
 
 .button-secondary {
-    appearance: none;
+    -webkit-appearance: none;
+       -moz-appearance: none;
+            appearance: none;
     outline: none;
     border: none;
     display: flex;
@@ -355,8 +363,11 @@ img:not([alt]) {
 }
 
 .slider-control,
+.pagination-control,
 .popup-close {
-    appearance: none;
+    -webkit-appearance: none;
+       -moz-appearance: none;
+            appearance: none;
     outline: none;
     border: none;
     background: transparent;
@@ -386,6 +397,7 @@ img:not([alt]) {
 }
 
 .slider-control:hover,
+.pagination-control:hover,
 .popup-close:hover {
     background: #FDDCC4;
     border: 2px solid #FDDCC4;
@@ -399,6 +411,7 @@ img:not([alt]) {
     box-shadow: 0px 2px 35px 14px rgba(13, 13, 13, 0.04);
     border-radius: 9px;
     position: fixed;
+    display: flex;
     top: 50%;
     transform: translateY(-50%);
     color: #000000;
@@ -413,6 +426,11 @@ img:not([alt]) {
 .card-popup_img {
     align-self: center;
     justify-self: center;
+}
+
+.card-popup_text-wrapper {
+    align-self: center;
+    margin-right: 2rem;
 }
 
 .card-popup ul {
