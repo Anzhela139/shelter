@@ -19,7 +19,7 @@ class Render extends Main {
     start = async () => {
         this.petsArr = await this.getPets();
 
-        this.winWidthResize({}, this.petsArr, this.initSlider.bind(this));
+        this.winWidthResize(this.petsArr, this.initSlider.bind(this));
         window.addEventListener('resize', this.winWidthResize.bind(this, this.petsArr, this.initSlider.bind(this)))
     }
 

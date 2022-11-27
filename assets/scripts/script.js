@@ -147,7 +147,7 @@ class Main {
      * @param {Array<Object>} fullArr - массив с питомцами
      * @param {Function} func - функция, вызываемая при изменения размеров окна
      */
-    winWidthResize(obj, fullArr, func) {
+    winWidthResize(obj, func) {
         if (this.winWidth > 1280) {
             func(1);
         } else if (this.winWidth <= 1280 && this.winWidth > 768) {
